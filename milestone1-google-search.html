@@ -7,30 +7,43 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 0;
             background-color: #f4f4f4;
         }
         header, section, footer {
-            margin-bottom: 20px;
+            margin: 20px auto;
             padding: 20px;
+            max-width: 900px;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
         }
         h1, h2 {
             color: #333;
         }
         .book-details img {
-            max-width: 200px;
+            max-width: 150px;
+            border-radius: 8px;
+            margin-right: 20px;
         }
         .book-details {
             display: flex;
             gap: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            align-items: flex-start;
         }
         .book-details div {
-            max-width: 600px;
+            flex: 1;
+        }
+        .book-details h2 {
+            margin-top: 0;
+        }
+        footer {
+            text-align: center;
         }
     </style>
 </head>
@@ -50,24 +63,30 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $.getJSON('json-files/google-books-search.json', function(data) {
-                let booksHTML = '';
-                data.items.forEach(bookData => {
-                    const book = bookData.volumeInfo;
-                    booksHTML += `
-                        <div class="book-details">
-                            <img src="${book.imageLinks.thumbnail}" alt="${book.title}">
-                            <div>
-                                <h2>${book.title}</h2>
-                                <p><strong>Authors:</strong> ${book.authors.join(', ')}</p>
-                                <p><strong>Published Date:</strong> ${book.publishedDate}</p>
-                                <p>${book.description}</p>
+            console.log("Document ready, fetching JSON data...");
+            $.getJSON('json-files/google-books-search.json')
+                .done(function(data) {
+                    console.log("JSON data received:", data);
+                    let booksHTML = '';
+                    data.items.forEach(bookData => {
+                        const book = bookData.volumeInfo;
+                        booksHTML += `
+                            <div class="book-details">
+                                <img src="${book.imageLinks.thumbnail}" alt="${book.title}">
+                                <div>
+                                    <h2>${book.title}</h2>
+                                    <p><strong>Authors:</strong> ${book.authors.join(', ')}</p>
+                                    <p><strong>Published Date:</strong> ${book.publishedDate}</p>
+                                    <p>${book.description}</p>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    });
+                    $('#books').html(booksHTML);
+                })
+                .fail(function(jqxhr, textStatus, error) {
+                    console.error("Request Failed: " + textStatus + ", " + error);
                 });
-                $('#books').html(booksHTML);
-            });
         });
     </script>
 </body>
