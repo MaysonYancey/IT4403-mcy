@@ -100,7 +100,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
+        <p>&copy; 2024 Mayson Yancey. All rights reserved.</p>
     </footer>
 
     <!-- Modal -->
@@ -119,9 +119,10 @@
             $.getJSON('json-files/openlibrary-search.json', function(data) {
                 let booksHTML = '';
                 data.docs.forEach(book => {
+                    let coverImg = book.cover_edition_key ? `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg` : 'placeholder-image-url';
                     booksHTML += `
                         <div class="book-card" data-title="${book.title}" data-authors="${book.author_name ? book.author_name.join(', ') : 'N/A'}" data-description="${book.description ? book.description : 'No description available.'}" data-published="${book.first_publish_year}">
-                            <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg" alt="${book.title}">
+                            <img src="${coverImg}" alt="${book.title}">
                             <h2>${book.title}</h2>
                             <p>${book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
                         </div>
