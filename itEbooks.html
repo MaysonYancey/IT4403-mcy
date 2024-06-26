@@ -121,7 +121,7 @@
                 data.Books.forEach(book => {
                     let coverImg = book.Image ? book.Image : 'placeholder-image-url';
                     booksHTML += `
-                        <div class="book-card" data-title="${book.Title}" data-authors="${book.SubTitle ? book.SubTitle : 'N/A'}" data-description="${book.Description}" data-published="${book.PublicationDate}">
+                        <div class="book-card" data-title="${book.Title}" data-subtitle="${book.SubTitle ? book.SubTitle : 'N/A'}" data-description="${book.Description}" data-published="${book.PublicationDate}">
                             <img src="${coverImg}" alt="${book.Title}">
                             <h2>${book.Title}</h2>
                             <p>${book.SubTitle ? book.SubTitle : 'N/A'}</p>
@@ -133,13 +133,13 @@
                 // Add click event to book cards
                 $('.book-card').on('click', function() {
                     const title = $(this).data('title');
-                    const authors = $(this).data('authors');
+                    const subtitle = $(this).data('subtitle');
                     const description = $(this).data('description');
                     const published = $(this).data('published');
                     
                     $('#modalDetails').html(`
                         <h2>${title}</h2>
-                        <p><strong>Authors:</strong> ${authors}</p>
+                        <p><strong>SubTitle:</strong> ${subtitle}</p>
                         <p><strong>Published Year:</strong> ${published}</p>
                         <p>${description}</p>
                     `);
