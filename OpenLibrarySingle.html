@@ -7,29 +7,40 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 0;
             background-color: #f4f4f4;
         }
         header, section, footer {
-            margin-bottom: 20px;
+            margin: 20px auto;
             padding: 20px;
+            max-width: 900px;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        header {
+            text-align: center;
+        }
         h1, h2 {
             color: #333;
         }
-        .book-details img {
-            max-width: 200px;
-        }
         .book-details {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
             gap: 20px;
         }
+        .book-details img {
+            max-width: 300px;
+            border-radius: 8px;
+        }
         .book-details div {
-            max-width: 600px;
+            max-width: 700px;
+        }
+        footer {
+            text-align: center;
         }
     </style>
 </head>
@@ -60,7 +71,7 @@
                             <p><strong>Authors:</strong> ${book.authors.map(author => author.name).join(', ')}</p>
                             <p><strong>Published Date:</strong> ${book.publish_date}</p>
                             <p><strong>Publisher:</strong> ${book.publishers.map(publisher => publisher.name).join(', ')}</p>
-                            <p><strong>Page Count:</strong> ${book.number_of_pages}</p>
+                            <p><strong>Page Count:</strong> ${book.number_of_pages ? book.number_of_pages : 'N/A'}</p>
                         </div>
                     </div>
                 `);

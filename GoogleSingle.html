@@ -7,29 +7,40 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 0;
             background-color: #f4f4f4;
         }
         header, section, footer {
-            margin-bottom: 20px;
+            margin: 20px auto;
             padding: 20px;
+            max-width: 900px;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        header {
+            text-align: center;
+        }
         h1, h2 {
             color: #333;
         }
-        .book-details img {
-            max-width: 200px;
-        }
         .book-details {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
             gap: 20px;
         }
+        .book-details img {
+            max-width: 300px;
+            border-radius: 8px;
+        }
         .book-details div {
-            max-width: 600px;
+            max-width: 700px;
+        }
+        footer {
+            text-align: center;
         }
     </style>
 </head>
@@ -49,20 +60,26 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $.getJSON('json-files/google-books-book.json', function(data) {
-                const book = data.volumeInfo;
-                $('#book').html(`
-                    <div class="book-details">
-                        <img src="${book.imageLinks.thumbnail}" alt="${book.title}">
-                        <div>
-                            <h2>${book.title}</h2>
-                            <p><strong>Authors:</strong> ${book.authors.join(', ')}</p>
-                            <p><strong>Published Date:</strong> ${book.publishedDate}</p>
-                            <p>${book.description}</p>
+            console.log("Document ready, fetching JSON data...");
+            $.getJSON('json-files/google-books-book.json')
+                .done(function(data) {
+                    console.log("JSON data received:", data);
+                    const book = data.volumeInfo;
+                    $('#book').html(`
+                        <div class="book-details">
+                            <img src="${book.imageLinks.thumbnail}" alt="${book.title}">
+                            <div>
+                                <h2>${book.title}</h2>
+                                <p><strong>Authors:</strong> ${book.authors.join(', ')}</p>
+                                <p><strong>Published Date:</strong> ${book.publishedDate}</p>
+                                <p>${book.description}</p>
+                            </div>
                         </div>
-                    </div>
-                `);
-            });
+                    `);
+                })
+                .fail(function(jqxhr, textStatus, error) {
+                    console.error("Request Failed: " + textStatus + ", " + error);
+                });
         });
     </script>
 </body>
