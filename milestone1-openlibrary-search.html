@@ -7,30 +7,86 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 0;
             background-color: #f4f4f4;
         }
-        header, section, footer {
-            margin-bottom: 20px;
+        header, footer {
+            margin: 20px auto;
             padding: 20px;
+            max-width: 900px;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h1, h2 {
+        header {
+            text-align: center;
+        }
+        h1 {
             color: #333;
         }
-        .book-details img {
-            max-width: 200px;
-        }
-        .book-details {
+        .book-grid {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
-            margin-bottom: 20px;
+            padding: 20px;
         }
-        .book-details div {
+        .book-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-align: center;
+            width: 200px;
+            transition: transform 0.3s;
+        }
+        .book-card:hover {
+            transform: translateY(-10px);
+        }
+        .book-card img {
+            width: 100%;
+            height: auto;
+        }
+        .book-card h2, .book-card p {
+            margin: 10px;
+        }
+        footer {
+            text-align: center;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
             max-width: 600px;
+            border-radius: 8px;
+            text-align: left;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -39,13 +95,23 @@
         <h1>OpenLibrary Search</h1>
     </header>
 
-    <section id="books">
+    <section id="books" class="book-grid">
         <!-- Books list will be loaded here by JavaScript -->
     </section>
 
     <footer>
         <p>&copy; 2024 Your Name. All rights reserved.</p>
     </footer>
+
+    <!-- Modal -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalDetails">
+                <!-- Book details will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -54,17 +120,42 @@
                 let booksHTML = '';
                 data.docs.forEach(book => {
                     booksHTML += `
-                        <div class="book-details">
+                        <div class="book-card" data-title="${book.title}" data-authors="${book.author_name ? book.author_name.join(', ') : 'N/A'}" data-description="${book.description ? book.description : 'No description available.'}" data-published="${book.first_publish_year}">
                             <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg" alt="${book.title}">
-                            <div>
-                                <h2>${book.title}</h2>
-                                <p><strong>Author:</strong> ${book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
-                                <p><strong>First Published Year:</strong> ${book.first_publish_year}</p>
-                            </div>
+                            <h2>${book.title}</h2>
+                            <p>${book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
                         </div>
                     `;
                 });
                 $('#books').html(booksHTML);
+
+                // Add click event to book cards
+                $('.book-card').on('click', function() {
+                    const title = $(this).data('title');
+                    const authors = $(this).data('authors');
+                    const description = $(this).data('description');
+                    const published = $(this).data('published');
+                    
+                    $('#modalDetails').html(`
+                        <h2>${title}</h2>
+                        <p><strong>Authors:</strong> ${authors}</p>
+                        <p><strong>Published Year:</strong> ${published}</p>
+                        <p>${description}</p>
+                    `);
+                    $('#bookModal').css('display', 'block');
+                });
+
+                // Add click event to close button
+                $('.close').on('click', function() {
+                    $('#bookModal').css('display', 'none');
+                });
+
+                // Close the modal when clicking outside of the modal content
+                $(window).on('click', function(event) {
+                    if (event.target == document.getElementById('bookModal')) {
+                        $('#bookModal').css('display', 'none');
+                    }
+                });
             });
         });
     </script>
