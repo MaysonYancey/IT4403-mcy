@@ -22,7 +22,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $.getJSON('https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC', function(data) {
+            $.getJSON('json-files/google-books-book.json', function(data) {
                 const book = data.volumeInfo;
                 $('#book').html(`
                     <div class="book-details">
