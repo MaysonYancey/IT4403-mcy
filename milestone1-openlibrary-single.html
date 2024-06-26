@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenLibrary Single Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header, section, footer {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .book-details img {
+            max-width: 200px;
+        }
+        .book-details {
+            display: flex;
+            gap: 20px;
+        }
+        .book-details div {
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>OpenLibrary Single Book</h1>
+    </header>
+
+    <section id="book">
+        <!-- Book details will be loaded here by JavaScript -->
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.getJSON('json-files/openlibrary-book.json', function(data) {
+                const bookKey = Object.keys(data)[0];
+                const book = data[bookKey];
+                $('#book').html(`
+                    <div class="book-details">
+                        <img src="${book.cover.large}" alt="${book.title}">
+                        <div>
+                            <h2>${book.title}</h2>
+                            <p><strong>Authors:</strong> ${book.authors.map(author => author.name).join(', ')}</p>
+                            <p><strong>Published Date:</strong> ${book.publish_date}</p>
+                            <p><strong>Publisher:</strong> ${book.publishers.map(publisher => publisher.name).join(', ')}</p>
+                            <p><strong>Page Count:</strong> ${book.number_of_pages}</p>
+                        </div>
+                    </div>
+                `);
+            });
+        });
+    </script>
+</body>
+</html>

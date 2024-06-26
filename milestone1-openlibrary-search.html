@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenLibrary Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header, section, footer {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .book-details img {
+            max-width: 200px;
+        }
+        .book-details {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .book-details div {
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>OpenLibrary Search</h1>
+    </header>
+
+    <section id="books">
+        <!-- Books list will be loaded here by JavaScript -->
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.getJSON('json-files/openlibrary-search.json', function(data) {
+                let booksHTML = '';
+                data.docs.forEach(book => {
+                    booksHTML += `
+                        <div class="book-details">
+                            <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg" alt="${book.title}">
+                            <div>
+                                <h2>${book.title}</h2>
+                                <p><strong>Author:</strong> ${book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
+                                <p><strong>First Published Year:</strong> ${book.first_publish_year}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                $('#books').html(booksHTML);
+            });
+        });
+    </script>
+</body>
+</html>
