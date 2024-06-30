@@ -1,3 +1,4 @@
+// search.js
 $(document).ready(function() {
     $('#search-button').on('click', function() {
         const searchTerm = $('#search-term').val();

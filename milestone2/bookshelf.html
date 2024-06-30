@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="main-menu.html">Main Menu</a></li>
-        </ul>
-    </nav>
+    <div id="main-menu-container"></div>
+    
     <div id="bookshelf-container"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#main-menu-container").load("main-menu.html");
+        });
+    </script>
     <script src="../js/bookshelf.js"></script>
 </body>
 </html>

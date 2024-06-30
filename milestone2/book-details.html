@@ -7,17 +7,15 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="book-search.html">Home</a></li>
-            <li><a href="bookshelf.html">My Bookshelf</a></li>
-            <li><a href="main-menu.html">Milestone 2 Main Menu</a></li>
-            <li><a href="index.html">Project Menu</a></li>
-        </ul>
-    </nav>
-    
+    <div id="main-menu-container"></div>
+
     <div id="book-details-container"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#main-menu-container").load("main-menu.html");
+        });
+    </script>
     <script src="../js/book-details.js"></script>
 </body>
 </html>

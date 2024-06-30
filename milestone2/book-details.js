@@ -1,3 +1,4 @@
+// book-details.js
 $(document).ready(function() {
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get('id');
