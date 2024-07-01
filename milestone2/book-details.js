@@ -6,6 +6,7 @@ $(document).ready(function() {
 
     $.getJSON(url, function(data) {
         displayBookDetails(data);
+        initializeBookViewer(data.id);
     });
 
     function displayBookDetails(data) {
@@ -22,5 +23,16 @@ $(document).ready(function() {
             <p><strong>Price:</strong> ${book.saleInfo?.listPrice?.amount || 'Not available'}</p>
         `;
         bookDetailsContainer.append(bookDetails);
+    }
+
+    function initializeBookViewer(volumeId) {
+        google.books.load();
+
+        function initialize() {
+            var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
+            viewer.load(volumeId);
+        }
+
+        google.books.setOnLoadCallback(initialize);
     }
 });
