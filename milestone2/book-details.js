@@ -25,19 +25,14 @@ $(document).ready(function() {
         bookDetailsContainer.append(bookDetails);
     }
 
-    function initializeBookViewer(volumeId) {
-        console.log('Initializing book viewer with volume ID:', volumeId);
+    function initializeBookViewer(bookId) {
         google.books.load();
 
         function initialize() {
             var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
-            viewer.load(volumeId, alertNotFound);
+            viewer.load(bookId);
         }
 
         google.books.setOnLoadCallback(initialize);
-
-        function alertNotFound() {
-            console.error("Could not embed the book!"); // Debugging line
-        }
     }
 });
