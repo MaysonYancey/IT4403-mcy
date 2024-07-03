@@ -13,9 +13,14 @@ $(document).ready(function() {
         const resultsContainer = $('#results-container');
         resultsContainer.empty();
 
-        data.items.forEach((item, index) => {
-            if (index >= 60) return;
+        if (!data.items || data.items.length === 0) {
+            resultsContainer.append('<p>No results found.</p>'); // Message for no results
+            return;
+        }
 
+        const totalResults = Math.min(data.items.length, 60); // Limit to 60 results
+        for (let i = 0; i < totalResults; i++) {
+            const item = data.items[i];
             const book = item.volumeInfo;
             const bookElement = `
                 <div class="book-item">
@@ -24,7 +29,7 @@ $(document).ready(function() {
                 </div>
             `;
             resultsContainer.append(bookElement);
-        });
+        }
 
         // Add pagination here if needed
     }
