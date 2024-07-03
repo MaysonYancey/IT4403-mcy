@@ -3,8 +3,8 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #222; /* Dark background for better contrast */
-    color: #ddd; /* Light text color */
+    background-color: #222;
+    color: #ddd;
 }
 
 nav ul {
@@ -30,7 +30,7 @@ nav ul li a:hover {
     background-color: #111;
 }
 
-#search-container {
+#search-container, #results-container, #bookshelf-container {
     padding: 20px;
     text-align: center;
 }
@@ -39,7 +39,6 @@ nav ul li a:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 20px;
 }
 
 .book-item {
@@ -48,27 +47,35 @@ nav ul li a:hover {
     margin: 10px;
     width: 200px;
     text-align: center;
-    text-decoration: none;
-    background-color: #333; /* Dark background for book items */
-    border-radius: 10px; /* Rounded corners */
-    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+    background-color: #333;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .book-item img {
     max-width: 100%;
-    border-radius: 10px; /* Rounded corners for images */
+    border-radius: 10px;
 }
 
-.book-item:hover {
-    transform: translateY(-10px); /* Move up slightly on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
-}
-
-.book-item h3 a {
-    color: #62a9ef; /* Light blue color for titles */
+.book-item a {
+    display: block;
+    color: inherit;
     text-decoration: none;
 }
 
-.book-item h3 a:hover {
+.book-item a:hover {
+    text-decoration: none;
+}
+
+.book-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.book-item h3 {
+    color: #62a9ef;
+}
+
+.book-item h3:hover {
     text-decoration: none;
 }

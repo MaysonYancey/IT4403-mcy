@@ -26,8 +26,10 @@ $(document).ready(function() {
             const book = item.volumeInfo;
             const bookElement = `
                 <div class="book-item">
-                    <h3><a href="book-details.html?id=${item.id}">${book.title}</a></h3>
-                    <img src="${book.imageLinks?.thumbnail}" alt="${book.title}">
+                    <a href="book-details.html?id=${item.id}">
+                        <img src="${book.imageLinks?.thumbnail}" alt="${book.title}">
+                        <h3>${book.title}</h3>
+                    </a>
                 </div>
             `;
             bookshelfContainer.append(bookElement);
