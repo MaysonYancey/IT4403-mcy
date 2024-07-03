@@ -30,15 +30,50 @@ nav ul li a:hover {
     background-color: #111;
 }
 
-#search-container, #results-container, #bookshelf-container {
+#search-container {
     padding: 20px;
     text-align: center;
+    margin-top: 50px;
+}
+
+#search-container h1 {
+    margin-bottom: 10px;
+    font-size: 2em;
+    color: #62a9ef;
+}
+
+#search-container p {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+#search-term {
+    padding: 10px;
+    width: 300px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#search-button {
+    padding: 10px 20px;
+    background-color: #62a9ef;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #1e90ff;
 }
 
 #results-container, #bookshelf-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    padding: 20px;
 }
 
 .book-item {
