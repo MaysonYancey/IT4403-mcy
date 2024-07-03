@@ -48,6 +48,7 @@ nav ul li a:hover {
     margin: 10px;
     width: 200px;
     text-align: center;
+    text-decoration: none;
     background-color: #333; /* Dark background for book items */
     border-radius: 10px; /* Rounded corners */
     transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
@@ -64,10 +65,10 @@ nav ul li a:hover {
 }
 
 .book-item h3 a {
-    color: #1e90ff; /* Light blue color for titles */
+    color: #62a9ef; /* Light blue color for titles */
     text-decoration: none;
 }
 
 .book-item h3 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
