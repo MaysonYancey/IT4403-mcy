@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #222;
+            color: #fff; /* Set default text color to white */
         }
         header, footer {
             margin: 20px auto;
@@ -17,7 +18,7 @@
             max-width: 900px;
             background: #333;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
         header {
             text-align: center;
@@ -33,9 +34,9 @@
             padding: 20px;
         }
         .book-card {
-            background: #222;
+            background: #333; /* Match internal card background with header/footer */
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
             overflow: hidden;
             text-align: center;
             width: 200px;
@@ -67,7 +68,8 @@
             background-color: rgba(0,0,0,0.8);
         }
         .modal-content {
-            background-color: #222;
+            background-color: #333; /* Match modal content background with header/footer */
+            color: #fff; /* White text */
             margin: 10% auto;
             padding: 20px;
             border: 1px solid #888;
@@ -84,7 +86,7 @@
         }
         .close:hover,
         .close:focus {
-            color: #000;
+            color: #fff; /* White color on hover/focus */
             text-decoration: none;
             cursor: pointer;
         }
