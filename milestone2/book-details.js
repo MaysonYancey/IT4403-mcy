@@ -1,23 +1,17 @@
-// book-details.js
 $(document).ready(function() {
-    console.log('Document is ready'); // Debugging line
 
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get('id');
     const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
 
-    console.log('Fetching book details from:', url); // Debugging line
-
     $.getJSON(url, function(data) {
-        console.log('Book API Response:', data); // Debugging line
         displayBookDetails(data);
-        initializeBookViewer(bookId); // Initialize the book viewer with the volume ID
+        initializeBookViewer(bookId); 
     }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('API Request Failed:', textStatus, errorThrown); // Debugging line
+        console.error('API Request Failed:', textStatus, errorThrown); //debug
     });
 
     function displayBookDetails(data) {
-        console.log('Displaying book details'); // Debugging line
         const book = data.volumeInfo;
         const bookDetailsContainer = $('#book-details-container');
 
@@ -37,7 +31,6 @@ $(document).ready(function() {
     }
 
     function initializeBookViewer(volumeId) {
-        console.log('Initializing book viewer with volume ID:', volumeId); // Debugging line
         google.books.load();
 
         function initialize() {
@@ -48,7 +41,7 @@ $(document).ready(function() {
         google.books.setOnLoadCallback(initialize);
 
         function alertNotFound() {
-            alert("Could not embed the book!"); // Alert the user if the book cannot be embedded
+            alert("Could not embed the book!"); // error message
         }
     }
 });

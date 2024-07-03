@@ -1,16 +1,12 @@
-// bookshelf.js
 $(document).ready(function() {
-    const userId = '115677212204005988835'; // Your User ID
-    const bookshelfId = '1001'; // Your Bookshelf ID
+    const userId = '115677212204005988835'; 
+    const bookshelfId = '1001'; 
     const url = `https://www.googleapis.com/books/v1/users/${userId}/bookshelves/${bookshelfId}/volumes`;
 
-    console.log('Fetching bookshelf books from:', url); // Debugging line
-
     $.getJSON(url, function(data) {
-        console.log('Bookshelf API Response:', data); // Debugging line
         displayBookshelf(data);
     }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('API Request Failed:', textStatus, errorThrown); // Debugging line
+        console.error('API Request Failed:', textStatus, errorThrown); // debug
     });
 
     function displayBookshelf(data) {
@@ -18,7 +14,7 @@ $(document).ready(function() {
         bookshelfContainer.empty();
 
         if (!data.items || data.items.length === 0) {
-            bookshelfContainer.append('<p>No books found in this bookshelf.</p>'); // Debugging line
+            bookshelfContainer.append('<p>No books found in this bookshelf.</p>'); // debug
             return;
         }
 
