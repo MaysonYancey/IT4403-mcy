@@ -22,12 +22,16 @@ $(document).ready(function() {
         const bookDetailsContainer = $('#book-details-container');
 
         const bookDetails = `
-            <h1>${book.title}</h1>
-            <img src="${book.imageLinks?.thumbnail}" alt="${book.title}">
-            <p><strong>Authors:</strong> ${book.authors.join(', ')}</p>
-            <p><strong>Publisher:</strong> ${book.publisher}</p>
-            <p><strong>Published Date:</strong> ${book.publishedDate}</p>
-            <p><strong>Description:</strong> ${book.description}</p>
+             <div class="book-cover">
+                <img src="${book.imageLinks?.thumbnail}" alt="${book.title}">
+            </div>
+            <div class="book-info">
+                <h1>${book.title}</h1>
+                <p><strong>Authors:</strong> ${book.authors.join(', ')}</p>
+                <p><strong>Publisher:</strong> ${book.publisher}</p>
+                <p><strong>Published Date:</strong> ${book.publishedDate}</p>
+                <p><strong>Description:</strong> ${book.description}</p>
+            </div>
         `;
         bookDetailsContainer.append(bookDetails);
     }
