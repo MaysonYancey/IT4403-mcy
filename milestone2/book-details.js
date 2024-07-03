@@ -28,7 +28,6 @@ $(document).ready(function() {
             <p><strong>Publisher:</strong> ${book.publisher}</p>
             <p><strong>Published Date:</strong> ${book.publishedDate}</p>
             <p><strong>Description:</strong> ${book.description}</p>
-            <p><strong>Price:</strong> ${book.saleInfo?.listPrice?.amount || 'Not available'}</p>
         `;
         bookDetailsContainer.append(bookDetails);
     }
