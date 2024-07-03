@@ -17,7 +17,7 @@ $(document).ready(function() {
 
         const bookDetails = `
              <div class="book-cover">
-                <img src="${book.imageLinks?.thumbnail}" alt="${book.title}">
+                 <img src="${book.imageLinks?.extraLarge || book.imageLinks?.large || book.imageLinks?.medium || book.imageLinks?.thumbnail}" alt="${book.title}">
             </div>
             <div class="book-info">
                 <h1>${book.title}</h1>
