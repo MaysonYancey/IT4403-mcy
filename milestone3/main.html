@@ -9,7 +9,6 @@
     <script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
 </head>
 <body>
-    <div id="main-menu-container"></div>
 
     <div id="search-container">
         <h1>Search for Books</h1>
@@ -29,8 +28,7 @@
 
     <script>
         $(document).ready(function() {
-            $("#main-menu-container").load("main-menu.html");
-
+           
             // Book Search Functionality
             $("#search-button").click(function() {
                 var searchTerm = $("#search-term").val();
