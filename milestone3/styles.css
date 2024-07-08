@@ -30,7 +30,7 @@ nav ul li a:hover {
     background-color: #111;
 }
 
-#search-container, #results-container, #bookshelf-container {
+#search-container, #results-container, #bookshelf-container, #pagination-container {
     padding: 20px;
     text-align: center;
     margin-top: 50px;
