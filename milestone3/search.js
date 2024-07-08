@@ -2,28 +2,44 @@ $(document).ready(function() {
     let currentPage = 1;
     let itemsPerPage = 10;
     let searchResults = [];
+    const maxResultsPerRequest = 40; // Google Books API limit
 
     // Book search functionality
     $("#search-button").click(function() {
         var searchTerm = $("#search-term").val();
         console.log('Search term:', searchTerm);  // Debug log
         if (searchTerm) {
-            $.ajax({
-                url: 'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm + '&maxResults=40',
-                method: 'GET',
-                success: function(data) {
-                    console.log('Search results:', data.items);  // Debug log
-                    searchResults = data.items || [];
-                    currentPage = 1;
+            searchResults = [];
+            currentPage = 1;
+            fetchResults(searchTerm, 0, maxResultsPerRequest, function() {
+                if (searchResults.length < 50) {
+                    fetchResults(searchTerm, 40, 10, function() {
+                        displaySearchResults();
+                        setupPagination();
+                    });
+                } else {
                     displaySearchResults();
                     setupPagination();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Search request failed:', status, error);
                 }
             });
         }
     });
+
+    function fetchResults(searchTerm, startIndex, maxResults, callback) {
+        $.ajax({
+            url: `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=${startIndex}&maxResults=${maxResults}`,
+            method: 'GET',
+            success: function(data) {
+                console.log('Fetched results:', data.items);  // Debug log
+                searchResults = searchResults.concat(data.items || []);
+                callback();
+            },
+            error: function(xhr, status, error) {
+                console.error('Search request failed:', status, error);
+                callback();
+            }
+        });
+    }
 
     function displaySearchResults() {
         let resultsContainer = $("#results-container");
