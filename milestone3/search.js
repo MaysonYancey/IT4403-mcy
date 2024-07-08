@@ -15,6 +15,9 @@ $(document).ready(function() {
                     currentPage = 1;
                     displaySearchResults();
                     setupPagination();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Search request failed:', status, error);
                 }
             });
         }
