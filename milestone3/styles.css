@@ -145,6 +145,7 @@ nav ul li a:hover {
 
 .book-info {
     flex: 1;
+    margin-top: 20px;
 }
 
 .book-info h1 {
