@@ -1,93 +1,47 @@
 $(document).ready(function() {
-    let currentPage = 1;
-    let itemsPerPage = 10;
-    let searchResults = [];
-    const maxResultsPerRequest = 40; // Google Books API limit
-
-    // Book search functionality
-    $("#search-button").click(function() {
-        var searchTerm = $("#search-term").val();
-        console.log('Search term:', searchTerm);  // Debug log
-        if (searchTerm) {
-            searchResults = [];
-            currentPage = 1;
-            fetchResults(searchTerm, 0, maxResultsPerRequest, function() {
-                if (searchResults.length < 50) {
-                    fetchResults(searchTerm, 40, 10, function() {
-                        displaySearchResults();
-                        setupPagination();
-                    });
-                } else {
-                    displaySearchResults();
-                    setupPagination();
-                }
-            });
-        }
+    $('#search-button').click(function() {
+        var searchTerm = $('#search-term').val();
+        searchBooks(searchTerm);
     });
 
-    function fetchResults(searchTerm, startIndex, maxResults, callback) {
+    function searchBooks(query) {
         $.ajax({
-            url: `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=${startIndex}&maxResults=${maxResults}`,
-            method: 'GET',
-            success: function(data) {
-                console.log('Fetched results:', data.items);  // Debug log
-                searchResults = searchResults.concat(data.items || []);
-                callback();
+            url: 'https://www.googleapis.com/books/v1/volumes',
+            type: 'GET',
+            data: {
+                q: query,
+                maxResults: 50,
+                startIndex: 0,
+                fields: 'items(id,volumeInfo(title,authors,imageLinks/thumbnail))'
             },
-            error: function(xhr, status, error) {
-                console.error('Search request failed:', status, error);
-                callback();
+            success: function(response) {
+                displayResults(response.items);
+            },
+            error: function(error) {
+                console.log('Error:', error);
             }
         });
     }
 
-    function displaySearchResults() {
-        let resultsContainer = $("#results-container");
-        resultsContainer.empty();
-        let startIndex = (currentPage - 1) * itemsPerPage;
-        let endIndex = startIndex + itemsPerPage;
-        let paginatedResults = searchResults.slice(startIndex, endIndex);
-        console.log('Displaying results:', paginatedResults);  // Debug log
+    function displayResults(books) {
+        $('#results-container').empty();
+        if (books && books.length > 0) {
+            books.forEach(function(book) {
+                var bookItem = $('<div class="book-item"></div>');
+                var bookThumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'placeholder.jpg';
+                bookItem.append('<img src="' + bookThumbnail + '" alt="Book cover">');
+                bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');
+                bookItem.data('book-id', book.id);
+                $('#results-container').append(bookItem);
+            });
 
-        paginatedResults.forEach(function(book) {
-            var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
-            bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');
-            if (book.volumeInfo.imageLinks) {
-                bookItem.append('<img src="' + book.volumeInfo.imageLinks.thumbnail + '" alt="' + book.volumeInfo.title + '">');
-            }
-            resultsContainer.append(bookItem);
-        });
-    }
-
-    function setupPagination() {
-        let paginationContainer = $("#pagination-container");
-        paginationContainer.empty();
-        let totalPages = Math.ceil(searchResults.length / itemsPerPage);
-        console.log('Total pages:', totalPages);  // Debug log
-
-        if (totalPages > 1) {
-            for (let i = 1; i <= totalPages; i++) {
-                let pageLink = $('<span class="page-link">' + i + '</span>');
-                pageLink.data('page', i);
-                if (i === currentPage) {
-                    pageLink.addClass('active');
-                }
-                paginationContainer.append(pageLink);
-            }
+            // Attach click event to book items
+            $('.book-item').click(function() {
+                var bookId = $(this).data('book-id');
+                displayBookDetails(bookId);
+            });
         } else {
-            paginationContainer.append('<span class="page-link active">1</span>');
+            $('#results-container').append('<p>No books found.</p>');
         }
     }
-
-    $(document).on('click', '.page-link', function() {
-        currentPage = $(this).data('page');
-        console.log('Navigating to page:', currentPage);  // Debug log
-        displaySearchResults();
-        setupPagination();
-    });
-
-    $(document).on('click', '.book-item', function() {
-        var bookId = $(this).data('id');
-        fetchBookDetails(bookId);
-    });
 });
