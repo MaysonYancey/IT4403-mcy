@@ -13,7 +13,7 @@ $(document).ready(function() {
                 method: 'GET',
                 success: function(data) {
                     console.log('Search results:', data.items);  // Debug log
-                    searchResults = data.items;
+                    searchResults = data.items || [];
                     currentPage = 1;
                     displaySearchResults();
                     setupPagination();
@@ -49,13 +49,17 @@ $(document).ready(function() {
         let totalPages = Math.ceil(searchResults.length / itemsPerPage);
         console.log('Total pages:', totalPages);  // Debug log
 
-        for (let i = 1; i <= totalPages; i++) {
-            let pageLink = $('<span class="page-link">' + i + '</span>');
-            pageLink.data('page', i);
-            if (i === currentPage) {
-                pageLink.addClass('active');
+        if (totalPages > 1) {
+            for (let i = 1; i <= totalPages; i++) {
+                let pageLink = $('<span class="page-link">' + i + '</span>');
+                pageLink.data('page', i);
+                if (i === currentPage) {
+                    pageLink.addClass('active');
+                }
+                paginationContainer.append(pageLink);
             }
-            paginationContainer.append(pageLink);
+        } else {
+            paginationContainer.append('<span class="page-link active">1</span>');
         }
     }
 
