@@ -6,11 +6,13 @@ $(document).ready(function() {
     // Book search functionality
     $("#search-button").click(function() {
         var searchTerm = $("#search-term").val();
+        console.log('Search term:', searchTerm);  // Debug log
         if (searchTerm) {
             $.ajax({
                 url: 'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm,
                 method: 'GET',
                 success: function(data) {
+                    console.log('Search results:', data.items);  // Debug log
                     searchResults = data.items;
                     currentPage = 1;
                     displaySearchResults();
@@ -29,6 +31,7 @@ $(document).ready(function() {
         let startIndex = (currentPage - 1) * itemsPerPage;
         let endIndex = startIndex + itemsPerPage;
         let paginatedResults = searchResults.slice(startIndex, endIndex);
+        console.log('Displaying results:', paginatedResults);  // Debug log
 
         paginatedResults.forEach(function(book) {
             var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
@@ -44,6 +47,7 @@ $(document).ready(function() {
         let paginationContainer = $("#pagination-container");
         paginationContainer.empty();
         let totalPages = Math.ceil(searchResults.length / itemsPerPage);
+        console.log('Total pages:', totalPages);  // Debug log
 
         for (let i = 1; i <= totalPages; i++) {
             let pageLink = $('<span class="page-link">' + i + '</span>');
@@ -57,6 +61,7 @@ $(document).ready(function() {
 
     $(document).on('click', '.page-link', function() {
         currentPage = $(this).data('page');
+        console.log('Navigating to page:', currentPage);  // Debug log
         displaySearchResults();
         setupPagination();
     });
