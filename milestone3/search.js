@@ -9,7 +9,7 @@ $(document).ready(function() {
         console.log('Search term:', searchTerm);  // Debug log
         if (searchTerm) {
             $.ajax({
-                url: 'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm,
+                url: 'https://www.googleapis.com/books/v1/volumes?q=' + searchTerm + '&maxResults=40',
                 method: 'GET',
                 success: function(data) {
                     console.log('Search results:', data.items);  // Debug log
