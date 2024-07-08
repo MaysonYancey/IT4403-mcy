@@ -1,35 +1,24 @@
-$(document).ready(function() {
-    const userId = '115677212204005988835'; 
-    const bookshelfId = '1001'; 
-    const url = `https://www.googleapis.com/books/v1/users/${userId}/bookshelves/${bookshelfId}/volumes`;
-
-    $.getJSON(url, function(data) {
-        displayBookshelf(data);
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('API Request Failed:', textStatus, errorThrown); // debug
-    });
-
-    function displayBookshelf(data) {
-        const bookshelfContainer = $('#bookshelf-container');
-        bookshelfContainer.empty();
-
-        if (!data.items || data.items.length === 0) {
-            bookshelfContainer.append('<p>No books found in this bookshelf.</p>'); // debug
-            return;
-        }
-
-        data.items.forEach(item => {
-            const book = item.volumeInfo;
-            const bookElement = `
-                <div class="book-item">
-                    <a href="book-details.html?id=${item.id}">
-                        <img src="${book.imageLinks?.thumbnail}" alt="${book.title}">
-                        <h3>${book.title}</h3>
-                    </a>
-                </div>
-            `;
-            bookshelfContainer.append(bookElement);
+ $(document).ready(function() {
+        // Fetch and display books from bookshelf
+        $.ajax({
+            url: 'https://www.googleapis.com/books/v1/users/${115677212204005988835}/bookshelves/${1001}/volumes`', // Update with actual URL
+            method: 'GET',
+            success: function(data) {
+                displayBookshelf(data.items);
+            }
         });
-    }
-});
-
+    
+        function displayBookshelf(books) {
+            var bookshelfContainer = $("#bookshelf-container");
+            bookshelfContainer.empty();
+            books.forEach(function(book) {
+                var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
+                bookItem.append('<h3>' + book.title + '</h3>');
+                if (book.image) {
+                    bookItem.append('<img src="' + book.image + '" alt="' + book.title + '">');
+                }
+                bookshelfContainer.append(bookItem);
+            });
+        }
+    });
+    
