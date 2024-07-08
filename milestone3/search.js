@@ -90,39 +90,4 @@ $(document).ready(function() {
         var bookId = $(this).data('id');
         fetchBookDetails(bookId);
     });
-
-    function fetchBookDetails(bookId) {
-        $.ajax({
-            url: `https://www.googleapis.com/books/v1/volumes/${bookId}`,
-            method: 'GET',
-            success: function(data) {
-                displayBookDetails(data);
-            },
-            error: function(xhr, status, error) {
-                console.error('Book details request failed:', status, error);
-            }
-        });
-    }
-
-    function displayBookDetails(book) {
-        let detailsContainer = $("#book-details-container");
-        detailsContainer.empty();
-        let bookInfo = book.volumeInfo;
-
-        let bookDetails = `
-            <div class="book-info">
-                <h1>${bookInfo.title}</h1>
-                <p><strong>Authors:</strong> ${bookInfo.authors ? bookInfo.authors.join(', ') : 'N/A'}</p>
-                <p><strong>Publisher:</strong> ${bookInfo.publisher ? bookInfo.publisher : 'N/A'}</p>
-                <p><strong>Published Date:</strong> ${bookInfo.publishedDate ? bookInfo.publishedDate : 'N/A'}</p>
-                <p><strong>Description:</strong> ${bookInfo.description ? bookInfo.description : 'N/A'}</p>
-            </div>
-        `;
-
-        if (bookInfo.imageLinks && bookInfo.imageLinks.thumbnail) {
-            bookDetails = `<div class="book-cover"><img src="${bookInfo.imageLinks.thumbnail}" alt="${bookInfo.title}"></div>` + bookDetails;
-        }
-
-        detailsContainer.append(bookDetails);
-    }
 });
