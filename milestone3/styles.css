@@ -84,6 +84,7 @@ nav ul li a:hover {
     background-color: #333;
     border-radius: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
 }
 
 .book-item img {
