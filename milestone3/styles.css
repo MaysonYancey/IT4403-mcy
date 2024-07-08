@@ -36,13 +36,13 @@ nav ul li a:hover {
     margin-top: 50px;
 }
 
-#search-container h1, #book-details-container h1 {
+#search-container h1, #book-details-container h1, #bookshelf-title h1 {
     margin-bottom: 10px;
     font-size: 2em;
     color: #62a9ef;
 }
 
-#search-container p, #book-details-container p {
+#search-container p, #book-details-container p, #bookshelf-title p {
     margin-bottom: 20px;
     font-size: 1.2em;
 }

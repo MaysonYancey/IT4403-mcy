@@ -88,21 +88,22 @@ $(document).ready(function() {
 
     $(document).on('click', '.book-item', function() {
         var bookId = $(this).data('id');
-        fetchBookDetails(bookId);
+        var containerId = $(this).closest('.bookshelf-container').length ? '#bookshelf-details-container' : '#book-details-container';
+        fetchBookDetails(bookId, containerId);
     });
 
-    function fetchBookDetails(bookId) {
+    function fetchBookDetails(bookId, containerId) {
         $.ajax({
             url: 'https://www.googleapis.com/books/v1/volumes/' + bookId,
             type: 'GET',
             success: function(response) {
-                $('#book-details-container').empty();
-                $('#book-details-container').append('<h1>' + response.volumeInfo.title + '</h1>');
-                $('#book-details-container').append('<p>By ' + response.volumeInfo.authors.join(', ') + '</p>');
+                $(containerId).empty();
+                $(containerId).append('<h1>' + response.volumeInfo.title + '</h1>');
+                $(containerId).append('<p>By ' + response.volumeInfo.authors.join(', ') + '</p>');
                 if (response.volumeInfo.imageLinks) {
-                    $('#book-details-container').append('<img src="' + response.volumeInfo.imageLinks.thumbnail + '" alt="Book cover">');
+                    $(containerId).append('<img src="' + response.volumeInfo.imageLinks.thumbnail + '" alt="Book cover">');
                 }
-                $('#book-details-container').append('<p>' + response.volumeInfo.description + '</p>');
+                $(containerId).append('<p>' + response.volumeInfo.description + '</p>');
             },
             error: function(error) {
                 console.log('Error:', error);
