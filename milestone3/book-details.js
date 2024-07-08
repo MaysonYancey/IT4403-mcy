@@ -31,18 +31,4 @@ $(document).ready(function() {
         bookDetailsContainer.append(bookDetails);
     }
 
-    function initializeBookViewer(volumeId) {
-        google.books.load();
-
-        function initialize() {
-            var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
-            viewer.load(volumeId, alertNotFound);
-        }
-
-        google.books.setOnLoadCallback(initialize);
-
-        function alertNotFound() {
-            alert("Could not embed the book!"); // Error message
-        }
-    }
 });

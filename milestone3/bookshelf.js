@@ -14,7 +14,6 @@ $(document).ready(function() {
 
     function displayBookshelf(books) {
         var bookshelfContainer = $("#bookshelf-container");
-        bookshelfContainer.empty();
         books.forEach(function(book) {
             var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
             bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');  // Use volumeInfo for title
