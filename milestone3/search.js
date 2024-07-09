@@ -6,6 +6,17 @@ $(document).ready(function() {
 
     // Book search functionality
     $("#search-button").click(function() {
+        performSearch();
+    });
+
+    // Trigger search on Enter key press
+    $("#search-term").keypress(function(event) {
+        if (event.which == 13) { // 13 is the Enter key code
+            performSearch();
+        }
+    });
+
+    function performSearch() {
         var searchTerm = $("#search-term").val();
         console.log('Search term:', searchTerm);  // Debug log
         if (searchTerm) {
@@ -23,8 +34,7 @@ $(document).ready(function() {
                 }
             });
         }
-    });
-
+    }
     function fetchResults(searchTerm, startIndex, maxResults, callback) {
         $.ajax({
             url: `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=${startIndex}&maxResults=${maxResults}`,
@@ -85,10 +95,10 @@ $(document).ready(function() {
         displaySearchResults();
         setupPagination();
 
-        // Smooth scroll to the book details container
+        
     $('html, body').animate({
         scrollTop: $(containerId).offset().top
-    }, 1000); // 1000 milliseconds for a smooth scroll effect
+    }, 1000); 
     });
 
     $(document).on('click', '.book-item', function() {
@@ -97,10 +107,10 @@ $(document).ready(function() {
         var containerId = isBookshelfItem ? '#bookshelf-details-container' : '#book-details-container';
         fetchBookDetails(bookId, containerId);
         
-        // Smooth scroll to the book details container
+        
     $('html, body').animate({
         scrollTop: $(containerId).offset().top
-    }, 1000); // 1000 milliseconds for a smooth scroll effect
+    }, 1000); 
     });
 
     function fetchBookDetails(bookId, containerId) {
