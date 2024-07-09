@@ -75,7 +75,7 @@ nav ul li a:hover {
     background-color: #c0392b;
 }
 
-#results-container {
+#results-container, #bookshelf-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
