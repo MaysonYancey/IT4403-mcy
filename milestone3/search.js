@@ -11,7 +11,7 @@ $(document).ready(function() {
 
     // Trigger search on Enter key press
     $("#search-term").keypress(function(event) {
-        if (event.which == 13) { // 13 is the Enter key code
+        if (event.which == 13) { //enter
             performSearch();
         }
     });
