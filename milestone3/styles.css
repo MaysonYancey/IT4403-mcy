@@ -154,6 +154,12 @@ nav ul li a:hover {
     color: #62a9ef;
 }
 
+.book-info h2 {
+    font-size: 2em;
+    color: #ddd;
+    margin-bottom: 10px;
+}
+
 .book-info p {
     font-size: 1.2em;
 }

@@ -88,7 +88,7 @@ $(document).ready(function() {
 
     $(document).on('click', '.book-item', function() {
         var bookId = $(this).data('id');
-        var isBookshelfItem = $(this).parents('#bookshelf-container').length > 0;
+        var isBookshelfItem = $(this).closest('#bookshelf-container').length > 0;
         var containerId = isBookshelfItem ? '#bookshelf-details-container' : '#book-details-container';
         fetchBookDetails(bookId, containerId);
     });
@@ -99,12 +99,19 @@ $(document).ready(function() {
             type: 'GET',
             success: function(response) {
                 $(containerId).empty();
-                $(containerId).append('<h1>' + response.volumeInfo.title + '</h1>');
-                $(containerId).append('<p>By ' + response.volumeInfo.authors.join(', ') + '</p>');
-                if (response.volumeInfo.imageLinks) {
-                    $(containerId).append('<img src="' + response.volumeInfo.imageLinks.thumbnail + '" alt="Book cover">');
-                }
-                $(containerId).append('<p>' + response.volumeInfo.description + '</p>');
+                var bookInfo = response.volumeInfo;
+                var detailsHtml = `
+                    <div class="book-info">
+                        <h1>${bookInfo.title}</h1>
+                        <h2>${bookInfo.subtitle}</h2>
+                        <p>By <a href="${bookInfo.authors ? bookInfo.authors.join(', ') : ''}" target="_blank">${bookInfo.authors ? bookInfo.authors.join(', ') : ''}</a> - ${bookInfo.publishedDate}</p>
+                        <p>${bookInfo.description}</p>
+                    </div>
+                    <div class="book-cover">
+                        ${bookInfo.imageLinks ? '<img src="' + bookInfo.imageLinks.thumbnail + '" alt="Book cover">' : ''}
+                    </div>
+                `;
+                $(containerId).append(detailsHtml);
             },
             error: function(error) {
                 console.log('Error:', error);
