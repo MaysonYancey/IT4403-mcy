@@ -13,14 +13,14 @@ $(document).ready(function() {
     });
 
     function displayBookshelf(books) {
+        var bookshelfContainer = $("#bookshelf-container");
         books.forEach(function(book) {
             var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
+            bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');  // Use volumeInfo for title
             if (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) {
                 bookItem.append('<img src="' + book.volumeInfo.imageLinks.thumbnail + '" alt="' + book.volumeInfo.title + '">');
             }
-            bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');  // Use volumeInfo for title
             bookshelfContainer.append(bookItem);
         });
-        
     }
 });
