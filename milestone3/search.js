@@ -104,7 +104,7 @@ $(document).ready(function() {
                     <div class="book-info">
                         <h1>${bookInfo.title}</h1>
                         <h2>${bookInfo.subtitle}</h2>
-                        <p>By <a href="${bookInfo.authors ? bookInfo.authors.join(', ') : ''}" target="_blank">${bookInfo.authors ? bookInfo.authors.join(', ') : ''}</a> - ${bookInfo.publishedDate}</p>
+                        <p>By ${bookInfo.authors ? bookInfo.authors.join(', ') : ''} - ${bookInfo.publishedDate}</p>
                         <p>${bookInfo.description}</p>
                     </div>
                     <div class="book-cover">
