@@ -51,10 +51,10 @@ $(document).ready(function() {
 
         paginatedResults.forEach(function(book) {
             var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
-            bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');
             if (book.volumeInfo.imageLinks) {
                 bookItem.append('<img src="' + book.volumeInfo.imageLinks.thumbnail + '" alt="' + book.volumeInfo.title + '">');
             }
+            bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');
             resultsContainer.append(bookItem);
         });
     }
@@ -103,9 +103,9 @@ $(document).ready(function() {
                 var detailsHtml = `
                     <div class="book-info">
                         <h1>${bookInfo.title}</h1>
-                        <h2>${bookInfo.subtitle}</h2>
+                        <h2>${bookInfo.subtitle ? bookInfo.subtitle : ''}</h2>
                         <p>By ${bookInfo.authors ? bookInfo.authors.join(', ') : ''} - ${bookInfo.publishedDate}</p>
-                        <p>${bookInfo.description}</p>
+                        <p>${bookInfo.description ? bookInfo.description : ''}</p>
                     </div>
                     <div class="book-cover">
                         ${bookInfo.imageLinks ? '<img src="' + bookInfo.imageLinks.thumbnail + '" alt="Book cover">' : ''}

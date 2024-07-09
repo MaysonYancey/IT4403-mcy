@@ -91,6 +91,10 @@ nav ul li a:hover {
     border-radius: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .book-item img {
@@ -101,7 +105,8 @@ nav ul li a:hover {
 
 .book-item h3 {
     color: #d26d62;
-    margin: 10px 0;
+    margin: 10px 0 0 0;
+    text-align: center;
 }
 
 .book-item:hover {
