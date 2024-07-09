@@ -87,7 +87,7 @@ $(document).ready(function() {
 
         // Smooth scroll to the book details container
     $('html, body').animate({
-        scrollTop: $(containerId).offset().bottom
+        scrollTop: $(containerId).offset().top
     }, 1000); // 1000 milliseconds for a smooth scroll effect
     });
 
@@ -96,7 +96,7 @@ $(document).ready(function() {
         var isBookshelfItem = $(this).closest('#bookshelf-container').length > 0;
         var containerId = isBookshelfItem ? '#bookshelf-details-container' : '#book-details-container';
         fetchBookDetails(bookId, containerId);
-
+        
         // Smooth scroll to the book details container
     $('html, body').animate({
         scrollTop: $(containerId).offset().top
