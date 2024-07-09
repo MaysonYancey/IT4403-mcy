@@ -88,7 +88,8 @@ $(document).ready(function() {
 
     $(document).on('click', '.book-item', function() {
         var bookId = $(this).data('id');
-        var containerId = $(this).closest('.bookshelf-container').length ? '#bookshelf-details-container' : '#book-details-container';
+        var isBookshelfItem = $(this).parents('#bookshelf-container').length > 0;
+        var containerId = isBookshelfItem ? '#bookshelf-details-container' : '#book-details-container';
         fetchBookDetails(bookId, containerId);
     });
 
