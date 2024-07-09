@@ -43,7 +43,7 @@ nav ul li a:hover {
 #search-container h1, #book-details-container h1, #bookshelf-title h1 {
     margin-bottom: 10px;
     font-size: 2.5em;
-    color: #e74c3c;
+    color: #d26d62;
 }
 
 #search-container p, #book-details-container p, #bookshelf-title p {
@@ -63,7 +63,7 @@ nav ul li a:hover {
 
 #search-button {
     padding: 10px 20px;
-    background-color: #e74c3c;
+    background-color: #d26d62;
     border: none;
     border-radius: 5px;
     color: white;
@@ -100,7 +100,7 @@ nav ul li a:hover {
 }
 
 .book-item h3 {
-    color: #e74c3c;
+    color: #d26d62;
     margin: 10px 0;
 }
 
@@ -147,7 +147,7 @@ nav ul li a:hover {
 
 .book-info h1 {
     font-size: 2em;
-    color: #e74c3c;
+    color: #d26d62;
 }
 
 .book-info h2 {
@@ -178,6 +178,6 @@ nav ul li a:hover {
 }
 
 .page-link.active {
-    background-color: #e74c3c;
+    background-color: #d26d62;
     color: #fff;
 }
