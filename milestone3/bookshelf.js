@@ -1,10 +1,9 @@
 $(document).ready(function() {
-    // Fetch and display books from bookshelf
+    // fetch and display books from bookshelf
     $.ajax({
-        url: 'https://www.googleapis.com/books/v1/users/115677212204005988835/bookshelves/1001/volumes', // Correct URL syntax
+        url: 'https://www.googleapis.com/books/v1/users/115677212204005988835/bookshelves/1001/volumes', 
         method: 'GET',
-        success: function(data) {
-            console.log('Bookshelf data:', data.items);  // Debug log
+        success: function(data) { 
             displayBookshelf(data.items);
         },
         error: function(xhr, status, error) {
@@ -16,7 +15,7 @@ $(document).ready(function() {
         var bookshelfContainer = $("#bookshelf-container");
         books.forEach(function(book) {
             var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
-            bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');  // Use volumeInfo for title
+            bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');  
             if (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) {
                 bookItem.append('<img src="' + book.volumeInfo.imageLinks.thumbnail + '" alt="' + book.volumeInfo.title + '">');
             }

@@ -2,23 +2,22 @@ $(document).ready(function() {
     let currentPage = 1;
     let itemsPerPage = 10;
     let searchResults = [];
-    const maxResultsPerRequest = 40; // Google Books API limit
+    const maxResultsPerRequest = 40; 
 
-    // Book search functionality
+    // Book search with button 
     $("#search-button").click(function() {
         performSearch();
     });
 
-    // Trigger search on Enter key press
+    // trigger search from enter keypress
     $("#search-term").keypress(function(event) {
-        if (event.which == 13) { //enter
+        if (event.which == 13) { // 13 is enter
             performSearch();
         }
     });
 
     function performSearch() {
-        var searchTerm = $("#search-term").val();
-        console.log('Search term:', searchTerm);  // Debug log
+        var searchTerm = $("#search-term").val(); 
         if (searchTerm) {
             searchResults = [];
             currentPage = 1;
@@ -40,7 +39,7 @@ $(document).ready(function() {
             url: `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=${startIndex}&maxResults=${maxResults}`,
             method: 'GET',
             success: function(data) {
-                console.log('Fetched results:', data.items);  // Debug log
+                console.log('Fetched results:', data.items);  // Debug 
                 searchResults = searchResults.concat(data.items || []);
                 callback();
             },
@@ -56,8 +55,7 @@ $(document).ready(function() {
         resultsContainer.empty();
         let startIndex = (currentPage - 1) * itemsPerPage;
         let endIndex = startIndex + itemsPerPage;
-        let paginatedResults = searchResults.slice(startIndex, endIndex);
-        console.log('Displaying results:', paginatedResults);  // Debug log
+        let paginatedResults = searchResults.slice(startIndex, endIndex); 
 
         paginatedResults.forEach(function(book) {
             var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
@@ -73,7 +71,7 @@ $(document).ready(function() {
         let paginationContainer = $("#pagination-container");
         paginationContainer.empty();
         let totalPages = Math.ceil(searchResults.length / itemsPerPage);
-        console.log('Total pages:', totalPages);  // Debug log
+        console.log('Total pages:', totalPages);  // Debug 
 
         if (totalPages > 1) {
             for (let i = 1; i <= totalPages; i++) {
@@ -91,7 +89,6 @@ $(document).ready(function() {
 
     $(document).on('click', '.page-link', function() {
         currentPage = $(this).data('page');
-        console.log('Navigating to page:', currentPage);  // Debug log
         displaySearchResults();
         setupPagination();
 
