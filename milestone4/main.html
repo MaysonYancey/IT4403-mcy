@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search and Bookshelf</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#search-container">Book Search</a></li>
+            <li><a href="#bookshelf-container">My Bookshelf</a></li>
+            <li><a href="../index.html">Project Menu</a></li>
+        </ul>
+    </nav>
+
+    <div id="search-container">
+        <h1>Search for Books</h1>
+        <p>Enter a search term to find your favorite books</p>
+        <input type="text" id="search-term" placeholder="Enter search term">
+        <button id="search-button">Search</button>
+    </div>
+    <div id="pagination-container"></div>
+    <div id="results-container"></div>
+
+    <div id="book-details-container" class="book-details-layout"></div>
+
+    <div id="bookshelf-title">
+        <h1>My Personal Bookshelf</h1>
+        <p>I hope you enjoy viewing some of my books!</p>
+    </div>
+
+    <div id="bookshelf-container"></div>
+
+    <div id="bookshelf-details-container" class="book-details-layout"></div>
+
+    <div id="viewerCanvas" class="centered"></div>
+
+    <script src="search.js"></script>
+    <script src="bookshelf.js"></script>
+</body>
+</html>
