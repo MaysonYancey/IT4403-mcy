@@ -78,10 +78,10 @@ $(document).ready(function() {
         });
 
         if (!isGridView) {
-            $(".book-item").css("display", "flex").css("flex-direction", "row");
+            $(".book-item").addClass("list-view").removeClass("grid-view");
             $(".book-item img").css("width", "150px").css("margin-right", "20px");
         } else {
-            $(".book-item").css("display", "flex").css("flex-direction", "column");
+            $(".book-item").addClass("grid-view").removeClass("list-view");
             $(".book-item img").css("width", "100%").css("margin-right", "0");
         }
     }

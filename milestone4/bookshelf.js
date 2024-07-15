@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    let isBookshelfGridView = true;
+
     // Fetch and display books from bookshelf
     $.ajax({
         url: `https://www.googleapis.com/books/v1/users/115677212204005988835/bookshelves/1001/volumes`, // Correct URL syntax
@@ -10,6 +12,12 @@ $(document).ready(function() {
         error: function(xhr, status, error) {
             console.error('Bookshelf request failed:', status, error);
         }
+    });
+
+    // Toggle view layout for bookshelf
+    $("#toggle-bookshelf-view").click(function() {
+        isBookshelfGridView = !isBookshelfGridView;
+        displayBookshelf();
     });
 
     function displayBookshelf(books) {
@@ -24,6 +32,14 @@ $(document).ready(function() {
             });
             bookshelfContainer.append(rendered);
         });
+
+        if (!isBookshelfGridView) {
+            $(".book-item").addClass("list-view").removeClass("grid-view");
+            $(".book-item img").css("width", "150px").css("margin-right", "20px");
+        } else {
+            $(".book-item").addClass("grid-view").removeClass("list-view");
+            $(".book-item img").css("width", "100%").css("margin-right", "0");
+        }
     }
 
     $(document).on('click', '.book-item', function() {
