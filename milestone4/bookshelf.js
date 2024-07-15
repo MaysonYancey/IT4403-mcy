@@ -1,29 +1,8 @@
 $(document).ready(function() {
-    const bookshelf = [
-        {
-            id: '1',
-            title: 'Book Title 1',
-            authors: 'Author 1',
-            thumbnail: 'https://via.placeholder.com/128x192?text=Book+1',
-            description: 'Description for Book 1',
-            publisher: 'Publisher 1',
-            publishedDate: '2021',
-            isbn: '1234567890'
-        },
-        {
-            id: '2',
-            title: 'Book Title 2',
-            authors: 'Author 2',
-            thumbnail: 'https://via.placeholder.com/128x192?text=Book+2',
-            description: 'Description for Book 2',
-            publisher: 'Publisher 2',
-            publishedDate: '2020',
-            isbn: '0987654321'
-        }
-    ];
+    const bookshelfUrl = 'https://www.googleapis.com/books/v1/users/115677212204005988835/bookshelves/1001/volumes';
 
     $('#bookshelf-title').click(function() {
-        displayBookshelf();
+        fetchBookshelf();
     });
 
     $(document).on('click', '.details-button', function() {
@@ -34,9 +13,32 @@ $(document).ready(function() {
         }
     });
 
-    function displayBookshelf() {
+    function fetchBookshelf() {
+        $.ajax({
+            url: bookshelfUrl,
+            method: 'GET',
+            success: function(data) {
+                const books = data.items.map(item => ({
+                    id: item.id,
+                    title: item.volumeInfo.title,
+                    authors: item.volumeInfo.authors.join(', '),
+                    thumbnail: item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : 'https://via.placeholder.com/128x192?text=No+Image',
+                    description: item.volumeInfo.description,
+                    publisher: item.volumeInfo.publisher,
+                    publishedDate: item.volumeInfo.publishedDate,
+                    isbn: item.volumeInfo.industryIdentifiers ? item.volumeInfo.industryIdentifiers[0].identifier : 'N/A'
+                }));
+                displayBookshelf(books);
+            },
+            error: function(error) {
+                console.error('Error fetching bookshelf:', error);
+            }
+        });
+    }
+
+    function displayBookshelf(books) {
         const template = $('#bookshelf-items-template').html();
-        const rendered = Mustache.render(template, { books: bookshelf });
+        const rendered = Mustache.render(template, { books: books });
         $('#bookshelf-container').html(rendered);
     }
 
@@ -47,5 +49,5 @@ $(document).ready(function() {
     }
 
     // Initially display the bookshelf
-    displayBookshelf();
+    fetchBookshelf();
 });
