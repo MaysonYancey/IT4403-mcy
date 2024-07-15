@@ -1,25 +1,51 @@
 $(document).ready(function() {
-    // fetch and display books from bookshelf
-    $.ajax({
-        url: 'https://www.googleapis.com/books/v1/users/115677212204005988835/bookshelves/1001/volumes', 
-        method: 'GET',
-        success: function(data) { 
-            displayBookshelf(data.items);
+    const bookshelf = [
+        {
+            id: '1',
+            title: 'Book Title 1',
+            authors: 'Author 1',
+            thumbnail: 'https://via.placeholder.com/128x192?text=Book+1',
+            description: 'Description for Book 1',
+            publisher: 'Publisher 1',
+            publishedDate: '2021',
+            isbn: '1234567890'
         },
-        error: function(xhr, status, error) {
-            console.error('Bookshelf request failed:', status, error);
+        {
+            id: '2',
+            title: 'Book Title 2',
+            authors: 'Author 2',
+            thumbnail: 'https://via.placeholder.com/128x192?text=Book+2',
+            description: 'Description for Book 2',
+            publisher: 'Publisher 2',
+            publishedDate: '2020',
+            isbn: '0987654321'
+        }
+    ];
+
+    $('#bookshelf-title').click(function() {
+        displayBookshelf();
+    });
+
+    $(document).on('click', '.details-button', function() {
+        const bookId = $(this).data('id');
+        const book = bookshelf.find(item => item.id === bookId);
+        if (book) {
+            displayBookDetails(book);
         }
     });
 
-    function displayBookshelf(books) {
-        var bookshelfContainer = $("#bookshelf-container");
-        books.forEach(function(book) {
-            var bookItem = $('<div class="book-item" data-id="' + book.id + '"></div>');
-            bookItem.append('<h3>' + book.volumeInfo.title + '</h3>');  
-            if (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) {
-                bookItem.append('<img src="' + book.volumeInfo.imageLinks.thumbnail + '" alt="' + book.volumeInfo.title + '">');
-            }
-            bookshelfContainer.append(bookItem);
-        });
+    function displayBookshelf() {
+        const template = $('#bookshelf-items-template').html();
+        const rendered = Mustache.render(template, { books: bookshelf });
+        $('#bookshelf-container').html(rendered);
     }
+
+    function displayBookDetails(book) {
+        const template = $('#book-details-template').html();
+        const rendered = Mustache.render(template, book);
+        $('#bookshelf-details-container').html(rendered);
+    }
+
+    // Initially display the bookshelf
+    displayBookshelf();
 });
