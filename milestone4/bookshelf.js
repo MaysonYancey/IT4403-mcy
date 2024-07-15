@@ -34,10 +34,12 @@ $(document).ready(function() {
         });
 
         if (!isBookshelfGridView) {
-            $(".book-item").addClass("list-view").removeClass("grid-view");
+            bookshelfContainer.removeClass("grid-view").addClass("list-view");
+            $(".book-item").css("display", "flex").css("flex-direction", "row").css("align-items", "center");
             $(".book-item img").css("width", "150px").css("margin-right", "20px");
         } else {
-            $(".book-item").addClass("grid-view").removeClass("list-view");
+            bookshelfContainer.removeClass("list-view").addClass("grid-view");
+            $(".book-item").css("display", "flex").css("flex-direction", "column").css("align-items", "center");
             $(".book-item img").css("width", "100%").css("margin-right", "0");
         }
     }

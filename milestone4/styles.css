@@ -197,3 +197,18 @@ nav ul li a:hover {
     background-color: #d26d62;
     color: #fff;
 }
+
+.toggle-view-button {
+    padding: 10px 20px;
+    background-color: #d26d62;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.toggle-view-button:hover {
+    background-color: #c0392b;
+}
