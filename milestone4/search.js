@@ -1,69 +1,150 @@
 $(document).ready(function() {
-    let currentPage = 0;
-    const resultsPerPage = 10;
+    let currentPage = 1;
+    let itemsPerPage = 10;
+    let searchResults = [];
+    const maxResultsPerRequest = 40; // Google Books API limit
+    let isGridView = true;
 
-    $('#search-button').click(function() {
-        const searchTerm = $('#search-term').val();
+    // Book search functionality
+    $("#search-button").click(function() {
+        performSearch();
+    });
+
+    // Trigger search on Enter key press
+    $("#search-term").keypress(function(event) {
+        if (event.which == 13) { // 13 is the Enter key code
+            performSearch();
+        }
+    });
+
+    // Toggle view layout
+    $("#toggle-view").click(function() {
+        isGridView = !isGridView;
+        displaySearchResults();
+    });
+
+    function performSearch() {
+        var searchTerm = $("#search-term").val();
+        console.log('Search term:', searchTerm);  // Debug log
         if (searchTerm) {
-            searchBooks(searchTerm, currentPage);
+            searchResults = [];
+            currentPage = 1;
+            fetchResults(searchTerm, 0, maxResultsPerRequest, function() {
+                if (searchResults.length < 50) {
+                    fetchResults(searchTerm, 40, 10, function() {
+                        displaySearchResults();
+                        setupPagination();
+                    });
+                } else {
+                    displaySearchResults();
+                    setupPagination();
+                }
+            });
         }
-    });
+    }
 
-    $('#prev-page-button').click(function() {
-        if (currentPage > 0) {
-            currentPage--;
-            const searchTerm = $('#search-term').val();
-            searchBooks(searchTerm, currentPage);
-        }
-    });
-
-    $('#next-page-button').click(function() {
-        currentPage++;
-        const searchTerm = $('#search-term').val();
-        searchBooks(searchTerm, currentPage);
-    });
-
-    function searchBooks(query, page) {
+    function fetchResults(searchTerm, startIndex, maxResults, callback) {
         $.ajax({
-            url: `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${page * resultsPerPage}&maxResults=${resultsPerPage}`,
+            url: `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=${startIndex}&maxResults=${maxResults}`,
             method: 'GET',
             success: function(data) {
-                const results = data.items.map(item => ({
-                    id: item.id,
-                    title: item.volumeInfo.title,
-                    authors: item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Unknown Author',
-                    thumbnail: item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : 'https://via.placeholder.com/128x192?text=No+Image',
-                    description: item.volumeInfo.description || 'No description available',
-                    publisher: item.volumeInfo.publisher || 'Unknown Publisher',
-                    publishedDate: item.volumeInfo.publishedDate || 'Unknown Date',
-                    isbn: item.volumeInfo.industryIdentifiers ? item.volumeInfo.industryIdentifiers[0].identifier : 'N/A'
-                }));
-                displaySearchResults(results);
+                console.log('Fetched results:', data.items);  // Debug log
+                searchResults = searchResults.concat(data.items || []);
+                callback();
             },
-            error: function(error) {
-                console.error('Error fetching search results:', error);
+            error: function(xhr, status, error) {
+                console.error('Search request failed:', status, error);
+                callback();
             }
         });
     }
 
-    function displaySearchResults(results) {
-        const template = $('#search-results-template').html();
-        const rendered = Mustache.render(template, { results: results });
-        $('#results-container').html(rendered);
-    }
+    function displaySearchResults() {
+        let resultsContainer = $("#results-container");
+        resultsContainer.empty();
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        let paginatedResults = searchResults.slice(startIndex, endIndex);
+        console.log('Displaying results:', paginatedResults);  // Debug log
 
-    function displayBookDetails(book) {
-        const template = $('#book-details-template').html();
-        const rendered = Mustache.render(template, book);
-        $('#book-details-container').html(rendered);
-    }
+        const template = $("#search-result-template").html();
+        paginatedResults.forEach(function(book) {
+            const rendered = Mustache.render(template, {
+                id: book.id,
+                thumbnail: book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '',
+                title: book.volumeInfo.title
+            });
+            resultsContainer.append(rendered);
+        });
 
-    // Event delegation for dynamically added book items
-    $(document).on('click', '.book-item', function() {
-        const bookId = $(this).data('id');
-        const book = searchResults.find(item => item.id === bookId);
-        if (book) {
-            displayBookDetails(book);
+        if (!isGridView) {
+            $(".book-item").css("display", "flex").css("flex-direction", "row");
+            $(".book-item img").css("width", "150px").css("margin-right", "20px");
+        } else {
+            $(".book-item").css("display", "flex").css("flex-direction", "column");
+            $(".book-item img").css("width", "100%").css("margin-right", "0");
         }
+    }
+
+    function setupPagination() {
+        let paginationContainer = $("#pagination-container");
+        paginationContainer.empty();
+        let totalPages = Math.ceil(searchResults.length / itemsPerPage);
+        console.log('Total pages:', totalPages);  // Debug log
+
+        if (totalPages > 1) {
+            for (let i = 1; i <= totalPages; i++) {
+                let pageLink = $('<span class="page-link">' + i + '</span>');
+                pageLink.data('page', i);
+                if (i === currentPage) {
+                    pageLink.addClass('active');
+                }
+                paginationContainer.append(pageLink);
+            }
+        } else {
+            paginationContainer.append('<span class="page-link active">1</span>');
+        }
+    }
+
+    $(document).on('click', '.page-link', function() {
+        currentPage = $(this).data('page');
+        console.log('Navigating to page:', currentPage);  // Debug log
+        displaySearchResults();
+        setupPagination();
     });
+
+    $(document).on('click', '.book-item', function() {
+        var bookId = $(this).data('id');
+        var isBookshelfItem = $(this).closest('#bookshelf-container').length > 0;
+        var containerId = isBookshelfItem ? '#bookshelf-details-container' : '#book-details-container';
+        fetchBookDetails(bookId, containerId);
+        
+        // Smooth scroll to the book details container
+        $('html, body').animate({
+            scrollTop: $(containerId).offset().top
+        }, 1000); // 1000 milliseconds for a smooth scroll effect
+    });
+
+    function fetchBookDetails(bookId, containerId) {
+        $.ajax({
+            url: 'https://www.googleapis.com/books/v1/volumes/' + bookId,
+            type: 'GET',
+            success: function(response) {
+                $(containerId).empty();
+                const template = $("#book-details-template").html();
+                const rendered = Mustache.render(template, {
+                    title: response.volumeInfo.title,
+                    subtitle: response.volumeInfo.subtitle,
+                    authors: response.volumeInfo.authors ? response.volumeInfo.authors.join(', ') : '',
+                    publishedDate: response.volumeInfo.publishedDate,
+                    description: response.volumeInfo.description,
+                    thumbnail: response.volumeInfo.imageLinks ? response.volumeInfo.imageLinks.thumbnail : ''
+                });
+                $(containerId).append(rendered);
+            },
+            error: function(error) {
+                console.log('Error:', error);
+            }
+        });
+    }
 });

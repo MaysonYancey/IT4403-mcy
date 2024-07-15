@@ -34,7 +34,7 @@ nav ul li a:hover {
     background-color: #444;
 }
 
-#search-container, #results-container, #bookshelf-container, #pagination-container, #bookshelf-title, #book-details-container, #bookshelf-details-container {
+#search-container, #results-container, #bookshelf-container, #pagination-container, #bookshelf-title {
     padding: 20px;
     text-align: center;
     margin-top: 50px;
@@ -61,7 +61,7 @@ nav ul li a:hover {
     color: #f5f5f5;
 }
 
-#search-button {
+#search-button, #toggle-view {
     padding: 10px 20px;
     background-color: #d26d62;
     border: none;
@@ -69,66 +69,18 @@ nav ul li a:hover {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-left: 10px;
 }
 
-#search-button:hover {
+#search-button:hover, #toggle-view:hover {
     background-color: #c0392b;
 }
 
-#view-switcher {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-#view-switcher button {
-    padding: 10px 20px;
-    background-color: #d26d62;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#view-switcher button:hover {
-    background-color: #c0392b;
-}
-
-#pagination-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-#pagination-container button {
-    padding: 10px 20px;
-    background-color: #d26d62;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#pagination-container button:hover {
-    background-color: #c0392b;
-}
-
-#results-container.grid-view, #bookshelf-container.grid-view {
+#results-container, #bookshelf-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     justify-items: center;
-}
-
-#results-container.list-view, #bookshelf-container.list-view {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
 }
 
 .book-item {

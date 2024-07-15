@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
-    <script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
 </head>
 <body>
     <nav>
@@ -23,19 +22,10 @@
         <p>Enter a search term to find your favorite books</p>
         <input type="text" id="search-term" placeholder="Enter search term">
         <button id="search-button">Search</button>
+        <button id="toggle-view">Toggle View</button>
     </div>
-
-    <div id="view-switcher">
-        <button id="grid-view-button">Grid View</button>
-        <button id="list-view-button">List View</button>
-    </div>
-
-    <div id="pagination-container">
-        <button id="prev-page-button">Previous</button>
-        <button id="next-page-button">Next</button>
-    </div>
-
-    <div id="results-container" class="grid-view"></div>
+    <div id="pagination-container"></div>
+    <div id="results-container"></div>
 
     <div id="book-details-container" class="book-details-layout"></div>
 
@@ -44,44 +34,37 @@
         <p>I hope you enjoy viewing some of my books!</p>
     </div>
 
-    <div id="bookshelf-container" class="grid-view"></div>
+    <div id="bookshelf-container"></div>
 
     <div id="bookshelf-details-container" class="book-details-layout"></div>
 
     <div id="viewerCanvas" class="centered"></div>
 
-    <script id="search-results-template" type="text/template">
-        {{#results}}
-        <div class="book-item">
+    <!-- Templates -->
+    <script id="search-result-template" type="text/template">
+        <div class="book-item" data-id="{{id}}">
             <img src="{{thumbnail}}" alt="{{title}}">
             <h3>{{title}}</h3>
-            <p>{{authors}}</p>
         </div>
-        {{/results}}
     </script>
 
     <script id="book-details-template" type="text/template">
-        <div class="book-cover">
-            <img src="{{thumbnail}}" alt="{{title}}">
-        </div>
         <div class="book-info">
             <h1>{{title}}</h1>
-            <h2>by {{authors}}</h2>
+            <h2>{{subtitle}}</h2>
+            <p>By {{authors}} - {{publishedDate}}</p>
             <p>{{description}}</p>
-            <p><strong>Publisher:</strong> {{publisher}}</p>
-            <p><strong>Published Date:</strong> {{publishedDate}}</p>
-            <p><strong>ISBN:</strong> {{isbn}}</p>
+        </div>
+        <div class="book-cover">
+            <img src="{{thumbnail}}" alt="Book cover">
         </div>
     </script>
 
-    <script id="bookshelf-items-template" type="text/template">
-        {{#books}}
-        <div class="book-item">
+    <script id="bookshelf-item-template" type="text/template">
+        <div class="book-item" data-id="{{id}}">
             <img src="{{thumbnail}}" alt="{{title}}">
             <h3>{{title}}</h3>
-            <p>{{authors}}</p>
         </div>
-        {{/books}}
     </script>
 
     <script src="search.js"></script>
