@@ -50,7 +50,7 @@ $(document).ready(function() {
         
         // Smooth scroll to the bookshelf details container
         $('html, body').animate({
-            scrollTop: $('#bookshelf-details-container').offset().top
+            scrollTop: $('#bookshelf-details-container').offset().top - ($(window).height() - $('#bookshelf-details-container').height()) / 2
         }, 1000); // 1000 milliseconds for a smooth scroll effect
     });
 

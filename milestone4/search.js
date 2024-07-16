@@ -112,7 +112,7 @@ $(document).ready(function() {
         
         // Smooth scroll to the book details container
         $('html, body').animate({
-            scrollTop: $('#book-details-container').offset().top
+            scrollTop: $('#book-details-container').offset().top - ($(window).height() - $('#book-details-container').height()) / 2
         }, 1000); // 1000 milliseconds for a smooth scroll effect
     });
 
