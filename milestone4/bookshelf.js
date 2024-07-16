@@ -1,5 +1,6 @@
 $(document).ready(function() {
     let isBookshelfGridView = true;
+    let bookshelfBooks = [];
 
     // Fetch and display books from bookshelf
     $.ajax({
@@ -7,7 +8,8 @@ $(document).ready(function() {
         method: 'GET',
         success: function(data) {
             console.log('Bookshelf data:', data.items);  // Debug log
-            displayBookshelf(data.items);
+            bookshelfBooks = data.items;
+            displayBookshelf(bookshelfBooks);
         },
         error: function(xhr, status, error) {
             console.error('Bookshelf request failed:', status, error);
@@ -17,7 +19,7 @@ $(document).ready(function() {
     // Toggle view layout for bookshelf
     $("#toggle-bookshelf-view").click(function() {
         isBookshelfGridView = !isBookshelfGridView;
-        displayBookshelf();
+        displayBookshelf(bookshelfBooks);
     });
 
     function displayBookshelf(books) {
@@ -42,7 +44,7 @@ $(document).ready(function() {
         }
     }
 
-    $(document).on('click', '.book-item', function() {
+    $(document).on('click', '#bookshelf-container .book-item', function() {
         var bookId = $(this).data('id');
         fetchBookDetails(bookId, '#bookshelf-details-container');
         

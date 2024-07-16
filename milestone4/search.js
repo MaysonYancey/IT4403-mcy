@@ -106,22 +106,13 @@ $(document).ready(function() {
         }
     }
 
-    $(document).on('click', '.page-link', function() {
-        currentPage = $(this).data('page');
-        console.log('Navigating to page:', currentPage);  // Debug log
-        displaySearchResults();
-        setupPagination();
-    });
-
-    $(document).on('click', '.book-item', function() {
+    $(document).on('click', '#results-container .book-item', function() {
         var bookId = $(this).data('id');
-        var isBookshelfItem = $(this).closest('#bookshelf-container').length > 0;
-        var containerId = isBookshelfItem ? '#bookshelf-details-container' : '#book-details-container';
-        fetchBookDetails(bookId, containerId);
+        fetchBookDetails(bookId, '#book-details-container');
         
         // Smooth scroll to the book details container
         $('html, body').animate({
-            scrollTop: $(containerId).offset().top
+            scrollTop: $('#book-details-container').offset().top
         }, 1000); // 1000 milliseconds for a smooth scroll effect
     });
 
