@@ -5,6 +5,9 @@ $(document).ready(function() {
     const maxResultsPerRequest = 40; // Google Books API limit
     let isGridView = true;
 
+    // Initialize search history
+    loadSearchHistory();
+
     // Book search functionality
     $("#search-button").click(function() {
         performSearch();
@@ -23,10 +26,12 @@ $(document).ready(function() {
         displaySearchResults();
     });
 
+    // Perform search
     function performSearch() {
         var searchTerm = $("#search-term").val();
         console.log('Search term:', searchTerm);  // Debug log
         if (searchTerm) {
+            addSearchHistory(searchTerm);
             searchResults = [];
             currentPage = 1;
             fetchResults(searchTerm, 0, maxResultsPerRequest, function() {
@@ -139,4 +144,33 @@ $(document).ready(function() {
             }
         });
     }
+
+    // Search history functions
+    function addSearchHistory(searchTerm) {
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        if (!searchHistory.includes(searchTerm)) {
+            searchHistory.push(searchTerm);
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+            displaySearchHistory();
+        }
+    }
+
+    function loadSearchHistory() {
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        displaySearchHistory();
+    }
+
+    function displaySearchHistory() {
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        let searchHistoryList = $("#search-history-list");
+        searchHistoryList.empty();
+        searchHistory.forEach(function(term) {
+            searchHistoryList.append('<li>' + term + '</li>');
+        });
+    }
+
+    $(document).on('click', '#search-history-list li', function() {
+        $("#search-term").val($(this).text());
+        performSearch();
+    });
 });

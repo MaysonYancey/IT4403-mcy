@@ -222,3 +222,33 @@ nav ul li a:hover {
     background-color: #d26d62;
     color: #fff;
 }
+
+#search-history-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#search-history-container h3 {
+    color: #d26d62;
+    margin-bottom: 10px;
+}
+
+#search-history-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#search-history-list li {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 5px 10px;
+    background-color: #2c2c2c;
+    color: #f5f5f5;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-history-list li:hover {
+    background-color: #c0392b;
+}
