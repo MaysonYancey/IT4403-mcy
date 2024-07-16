@@ -109,6 +109,12 @@ $(document).ready(function() {
         } else {
             paginationContainer.append('<span class="page-link active">1</span>');
         }
+
+        $(document).on('click', '.page-link', function() {
+            currentPage = $(this).data('page');
+            displaySearchResults();
+            setupPagination();
+        });
     }
 
     $(document).on('click', '#results-container .book-item', function() {
@@ -148,15 +154,13 @@ $(document).ready(function() {
     // Search history functions
     function addSearchHistory(searchTerm) {
         let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        if (!searchHistory.includes(searchTerm)) {
-            searchHistory.push(searchTerm);
-            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-            displaySearchHistory();
-        }
+        searchHistory = searchHistory.filter(term => term !== searchTerm); // Remove if already exists
+        searchHistory.unshift(searchTerm); // Add to the beginning
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+        displaySearchHistory();
     }
 
     function loadSearchHistory() {
-        let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
         displaySearchHistory();
     }
 
