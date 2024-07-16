@@ -108,15 +108,15 @@ $(document).ready(function() {
 
     $(document).on('click', '#results-container .book-item', function() {
         var bookId = $(this).data('id');
-        fetchBookDetails(bookId, '#book-details-container');
-        
-        // Smooth scroll to the book details container
-        $('html, body').animate({
-            scrollTop: $('#book-details-container').offset().top - ($(window).height() - $('#book-details-container').height()) / 2
-        }, 1000); // 1000 milliseconds for a smooth scroll effect
+        fetchBookDetails(bookId, '#book-details-container', function() {
+            // Smooth scroll to the book details container
+            $('html, body').animate({
+                scrollTop: $('#book-details-container').offset().top - 100 // Adjust this value for the desired space
+            }, 1000); // 1000 milliseconds for a smooth scroll effect
+        });
     });
 
-    function fetchBookDetails(bookId, containerId) {
+    function fetchBookDetails(bookId, containerId, callback) {
         $.ajax({
             url: 'https://www.googleapis.com/books/v1/volumes/' + bookId,
             type: 'GET',
@@ -132,6 +132,7 @@ $(document).ready(function() {
                     thumbnail: response.volumeInfo.imageLinks ? response.volumeInfo.imageLinks.thumbnail : ''
                 });
                 $(containerId).append(rendered);
+                if (callback) callback();
             },
             error: function(error) {
                 console.log('Error:', error);
