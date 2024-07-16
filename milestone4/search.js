@@ -108,32 +108,28 @@ $(document).ready(function() {
         } else {
             paginationContainer.append('<span class="page-link active">1</span>');
         }
+
+        $(document).off('click', '.page-link'); // Remove any previous event handlers
+        $(document).on('click', '.page-link', function() {
+            currentPage = $(this).data('page');
+            displaySearchResults();
+            setupPagination(); // Update pagination to reflect the current active page
+        });
     }
 
-    $(document).on('click', '.page-link', function() {
-        currentPage = $(this).data('page');
-        displaySearchResults();
-        setupPagination();
-        
-        // Smooth scroll to the top of results
-        $('html, body').animate({
-            scrollTop: $('#results-container').offset().top - 100 // Adjust this value for the desired space
-        }, 1000); // 1000 milliseconds for a smooth scroll effect
-    });
-
-    $(document).on('click', '.book-item', function() {
+    $(document).on('click', '#results-container .book-item, #bookshelf-container .book-item', function() {
         var bookId = $(this).data('id');
         var isBookshelfItem = $(this).closest('#bookshelf-container').length > 0;
         var containerId = isBookshelfItem ? '#bookshelf-details-container' : '#book-details-container';
-        fetchBookDetails(bookId, containerId);
-        
-        // Smooth scroll to the book details container
-        $('html, body').animate({
-            scrollTop: $(containerId).offset().top - 100 // Adjust this value for the desired space
-        }, 1000); // 1000 milliseconds for a smooth scroll effect
+        fetchBookDetails(bookId, containerId, function() {
+            // Smooth scroll to the book details container
+            $('html, body').animate({
+                scrollTop: $(containerId).offset().top - 100 // Adjust this value for the desired space
+            }, 1000); // 1000 milliseconds for a smooth scroll effect
+        });
     });
 
-    function fetchBookDetails(bookId, containerId) {
+    function fetchBookDetails(bookId, containerId, callback) {
         $.ajax({
             url: 'https://www.googleapis.com/books/v1/volumes/' + bookId,
             type: 'GET',
@@ -149,6 +145,7 @@ $(document).ready(function() {
                     thumbnail: response.volumeInfo.imageLinks ? response.volumeInfo.imageLinks.thumbnail : ''
                 });
                 $(containerId).append(rendered);
+                if (callback) callback();
             },
             error: function(error) {
                 console.log('Error:', error);
