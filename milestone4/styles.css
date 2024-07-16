@@ -61,7 +61,7 @@ nav ul li a:hover {
     color: #f5f5f5;
 }
 
-#search-button, #toggle-view {
+#search-button, .toggle-view-button {
     padding: 10px 20px;
     background-color: #d26d62;
     border: none;
@@ -72,28 +72,37 @@ nav ul li a:hover {
     margin-left: 10px;
 }
 
-#search-button:hover, #toggle-view:hover {
+#search-button:hover, .toggle-view-button:hover {
     background-color: #c0392b;
 }
 
-#results-container, #bookshelf-container {
+#results-container.grid-view, #bookshelf-container.grid-view {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     justify-items: center;
 }
 
-.list-view {
+#results-container.list-view, #bookshelf-container.list-view {
+    display: block;
+}
+
+.list-view .book-item {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
     margin-bottom: 10px;
+    background-color: #2c2c2c;
+    padding: 10px;
+    border-radius: 10px;
 }
 
-.grid-view {
+.grid-view .book-item {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .book-item {
@@ -105,8 +114,6 @@ nav ul li a:hover {
     border-radius: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
-    justify-content: center;
-    align-items: center;
 }
 
 .book-item img {
@@ -114,10 +121,24 @@ nav ul li a:hover {
     margin-bottom: 10px;
 }
 
+.list-view .book-item img {
+    width: 100px;
+    margin-right: 20px;
+}
+
+.grid-view .book-item img {
+    width: 100%;
+    margin-right: 0;
+}
+
 .book-item h3 {
     color: #d26d62;
     margin: 10px 0 0 0;
-    text-align: center;
+}
+
+.book-item .book-details p {
+    color: #ddd;
+    margin: 0;
 }
 
 .book-item:hover {
@@ -196,19 +217,4 @@ nav ul li a:hover {
 .page-link.active {
     background-color: #d26d62;
     color: #fff;
-}
-
-.toggle-view-button {
-    padding: 10px 20px;
-    background-color: #d26d62;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 10px;
-}
-
-.toggle-view-button:hover {
-    background-color: #c0392b;
 }

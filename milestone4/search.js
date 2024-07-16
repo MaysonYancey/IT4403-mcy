@@ -72,19 +72,17 @@ $(document).ready(function() {
             const rendered = Mustache.render(template, {
                 id: book.id,
                 thumbnail: book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '',
-                title: book.volumeInfo.title
+                title: book.volumeInfo.title,
+                authors: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : '',
+                publishedDate: book.volumeInfo.publishedDate
             });
             resultsContainer.append(rendered);
         });
 
         if (!isGridView) {
             resultsContainer.removeClass("grid-view").addClass("list-view");
-            $(".book-item").css("display", "flex").css("flex-direction", "row").css("align-items", "center");
-            $(".book-item img").css("width", "150px").css("margin-right", "20px");
         } else {
             resultsContainer.removeClass("list-view").addClass("grid-view");
-            $(".book-item").css("display", "flex").css("flex-direction", "column").css("align-items", "center");
-            $(".book-item img").css("width", "100%").css("margin-right", "0");
         }
     }
 

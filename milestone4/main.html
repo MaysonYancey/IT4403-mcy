@@ -45,7 +45,11 @@
     <script id="search-result-template" type="text/template">
         <div class="book-item" data-id="{{id}}">
             <img src="{{thumbnail}}" alt="{{title}}">
-            <h3>{{title}}</h3>
+            <div class="book-details">
+                <h3>{{title}}</h3>
+                <p>{{authors}}</p>
+                <p>{{publishedDate}}</p>
+            </div>
         </div>
     </script>
 
@@ -64,7 +68,11 @@
     <script id="bookshelf-item-template" type="text/template">
         <div class="book-item" data-id="{{id}}">
             <img src="{{thumbnail}}" alt="{{title}}">
-            <h3>{{title}}</h3>
+            <div class="book-details">
+                <h3>{{title}}</h3>
+                <p>{{authors}}</p>
+                <p>{{publishedDate}}</p>
+            </div>
         </div>
     </script>
 
