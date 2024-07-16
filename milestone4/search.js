@@ -2,7 +2,7 @@ $(document).ready(function() {
     let currentPage = 1;
     let itemsPerPage = 10;
     let searchResults = [];
-    const maxResultsPerRequest = 40; // Google Books API limit
+    const maxResultsPerRequest = 40;
     let isGridView = true;
 
     // Initialize search history
@@ -29,7 +29,6 @@ $(document).ready(function() {
     // Perform search
     function performSearch() {
         var searchTerm = $("#search-term").val();
-        console.log('Search term:', searchTerm);  // Debug log
         if (searchTerm) {
             addSearchHistory(searchTerm);
             searchResults = [];
@@ -70,7 +69,7 @@ $(document).ready(function() {
         let startIndex = (currentPage - 1) * itemsPerPage;
         let endIndex = startIndex + itemsPerPage;
         let paginatedResults = searchResults.slice(startIndex, endIndex);
-        console.log('Displaying results:', paginatedResults);  // Debug log
+        console.log('Displaying results for page', currentPage, ':', paginatedResults);  // Debug log
 
         const template = $("#search-result-template").html();
         paginatedResults.forEach(function(book) {
@@ -109,25 +108,32 @@ $(document).ready(function() {
         } else {
             paginationContainer.append('<span class="page-link active">1</span>');
         }
-
-        $(document).on('click', '.page-link', function() {
-            currentPage = $(this).data('page');
-            displaySearchResults();
-            setupPagination();
-        });
     }
 
-    $(document).on('click', '#results-container .book-item', function() {
-        var bookId = $(this).data('id');
-        fetchBookDetails(bookId, '#book-details-container', function() {
-            // Smooth scroll to the book details container
-            $('html, body').animate({
-                scrollTop: $('#book-details-container').offset().top - 100 // Adjust this value for the desired space
-            }, 1000); // 1000 milliseconds for a smooth scroll effect
-        });
+    $(document).on('click', '.page-link', function() {
+        currentPage = $(this).data('page');
+        displaySearchResults();
+        setupPagination();
+        
+        // Smooth scroll to the top of results
+        $('html, body').animate({
+            scrollTop: $('#results-container').offset().top - 100 // Adjust this value for the desired space
+        }, 1000); // 1000 milliseconds for a smooth scroll effect
     });
 
-    function fetchBookDetails(bookId, containerId, callback) {
+    $(document).on('click', '.book-item', function() {
+        var bookId = $(this).data('id');
+        var isBookshelfItem = $(this).closest('#bookshelf-container').length > 0;
+        var containerId = isBookshelfItem ? '#bookshelf-details-container' : '#book-details-container';
+        fetchBookDetails(bookId, containerId);
+        
+        // Smooth scroll to the book details container
+        $('html, body').animate({
+            scrollTop: $(containerId).offset().top - 100 // Adjust this value for the desired space
+        }, 1000); // 1000 milliseconds for a smooth scroll effect
+    });
+
+    function fetchBookDetails(bookId, containerId) {
         $.ajax({
             url: 'https://www.googleapis.com/books/v1/volumes/' + bookId,
             type: 'GET',
@@ -143,7 +149,6 @@ $(document).ready(function() {
                     thumbnail: response.volumeInfo.imageLinks ? response.volumeInfo.imageLinks.thumbnail : ''
                 });
                 $(containerId).append(rendered);
-                if (callback) callback();
             },
             error: function(error) {
                 console.log('Error:', error);
