@@ -7,7 +7,6 @@ $(document).ready(function() {
         url: `https://www.googleapis.com/books/v1/users/115677212204005988835/bookshelves/1001/volumes`, // Correct URL syntax
         method: 'GET',
         success: function(data) {
-            console.log('Bookshelf data:', data.items);  // Debug log
             bookshelfBooks = data.items;
             displayBookshelf(bookshelfBooks);
         },
@@ -24,7 +23,7 @@ $(document).ready(function() {
 
     function displayBookshelf(books) {
         var bookshelfContainer = $("#bookshelf-container");
-        bookshelfContainer.empty(); // Clear previous items
+        bookshelfContainer.empty(); 
         const template = $("#bookshelf-item-template").html();
         books.forEach(function(book) {
             const rendered = Mustache.render(template, {
@@ -47,10 +46,10 @@ $(document).ready(function() {
     $(document).on('click', '#bookshelf-container .book-item', function() {
         var bookId = $(this).data('id');
         fetchBookDetails(bookId, '#bookshelf-details-container', function() {
-            // Smooth scroll to the bookshelf details container
+            // Smooth scroll 
             $('html, body').animate({
-                scrollTop: $('#bookshelf-details-container').offset().top - 100 // Adjust this value for the desired space
-            }, 1000); // 1000 milliseconds for a smooth scroll effect
+                scrollTop: $('#bookshelf-details-container').offset().top - 100 
+            }, 1000);
         });
     });
 

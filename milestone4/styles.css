@@ -162,11 +162,11 @@ nav ul li a:hover {
 }
 
 .book-details-layout {
-    display: none; /* Initially hide the details container */
+    display: none; 
 }
 
 .book-details-layout:not(:empty) {
-    display: flex; /* Show the details container when it has content */
+    display: flex; 
     align-items: flex-start;
     gap: 20px;
     margin: 20px auto;
